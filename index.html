@@ -1,5 +1,7 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>AgroVision</title>
+﻿<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<title>AgroVision AI | Tomato Plant Health Screening</title>
+<meta name="description" content="AgroVision AI is a student project for tomato leaf symptom screening and disease education.">
+<meta name="theme-color" content="#10251b">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -330,11 +332,105 @@ dialog{box-shadow:0 30px 90px #06130b55}
 @media (min-width:769px){
   .site .nav{position:static;max-height:none;visibility:visible;opacity:1;transform:none;overflow:visible}
 }
+/* Navigation reliability and high-contrast mobile menu */
+.site{position:sticky;top:0;z-index:100}
+.hamburger{position:relative;z-index:102;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+@media(max-width:768px){
+  .site.nav-open .nav{
+    z-index:101;background:#10251b;color:#f4f7ef;border:1px solid #42674d;
+    box-shadow:0 18px 36px rgba(0,0,0,.38);pointer-events:auto;isolation:isolate
+  }
+  .site .nav a{color:#f4f7ef;background:transparent;touch-action:manipulation}
+  .site .nav a:hover,.site .nav a:focus-visible,.site .nav a:active{
+    color:#fff;background:#244b32;outline-offset:2px
+  }
+  .site .nav a:focus-visible,.hamburger:focus-visible{
+    outline:3px solid #d6e8a7;outline-offset:3px
+  }
+}
+@media(prefers-reduced-motion:reduce){.site .nav,.hamburger span{transition:none!important}}
 </style>
 
 
 <div class="strip"><div class="wrap" data-i18n="strip">Class 11 STEAM Exhibition · Pakistan</div></div>
 
+<style>
+/* AgroVision AI: animated visual upgrade */
+:root {
+  --av-green: #79e36b;
+  --av-glow: rgba(121, 227, 107, .22);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.site {
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+/* Smooth reveal for existing content */
+.av-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .75s ease, transform .75s ease;
+}
+
+.av-reveal.av-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Floating green ambient glow */
+body::before {
+  content: "";
+  position: fixed;
+  inset: -20%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 15% 25%, rgba(66, 160, 76, .13), transparent 38%),
+    radial-gradient(ellipse at 85% 65%, rgba(145, 205, 74, .12), transparent 35%);
+  animation: avAmbient 12s ease-in-out infinite alternate;
+}
+
+@keyframes avAmbient {
+  from { transform: translate3d(-1%, -1%, 0) scale(1); }
+  to { transform: translate3d(1%, 1%, 0) scale(1.08); }
+}
+
+/* Gentle hover lift */
+.card, .panel, .feature-card, .stat-card {
+  transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+}
+
+.card:hover, .panel:hover, .feature-card:hover, .stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 38px rgba(35, 100, 49, .12);
+}
+
+/* Respect reduced-motion settings */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+  .av-reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+</style>
+
+</head>
+<body>
 <header class="site">
   <div class="wrap">
     <a class="brand" href="#top" aria-label="AgroVision">
@@ -1137,7 +1233,11 @@ hamburger.addEventListener('click',function(){
 });
 nav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',closeAgroMenu)});
 document.addEventListener('keydown',function(event){if(event.key==='Escape')closeAgroMenu()});
+document.addEventListener('click',function(event){
+  if(siteHeader.classList.contains('nav-open')&&!siteHeader.contains(event.target))closeAgroMenu();
+});
 window.addEventListener('resize',function(){if(window.innerWidth>768)closeAgroMenu()});
+window.addEventListener('orientationchange',closeAgroMenu);
 
 applyLang();
 })();
@@ -1158,6 +1258,49 @@ applyLang();
     entries.forEach(function(entry){if(entry.isIntersecting){entry.target.classList.add('is-visible');io.unobserve(entry.target)}});
   },{threshold:.12});
   nodes.forEach(function(n){io.observe(n)});
+})();
+</script>
+
+<script>
+(() => {
+  const reducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+
+  const selectors = [
+    "main section",
+    "main .card",
+    "main .panel",
+    "main .feature-card",
+    "main .stat-card"
+  ];
+
+  const elements = [...new Set(
+    selectors.flatMap(selector =>
+      [...document.querySelectorAll(selector)]
+    )
+  )];
+
+  if (reducedMotion || !("IntersectionObserver" in window)) {
+    return;
+  }
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("av-visible");
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  elements.forEach((element, index) => {
+    if (element.closest(".site")) return;
+
+    element.classList.add("av-reveal");
+    element.style.transitionDelay = `${(index % 4) * 80}ms`;
+    observer.observe(element);
+  });
 })();
 </script>
 
