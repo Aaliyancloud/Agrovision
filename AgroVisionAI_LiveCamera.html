@@ -1,0 +1,1165 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>AgroVision</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Noto+Naskh+Arabic:wght@400;600;700&display=swap">
+<style>
+:root{
+  /* Layout: a field-guide specimen sheet. Hero pairs the headline with a labelled leaf plate, then the working leaf check, weather risk, reference library, method and exhibition notes on ruled sheets. */
+  --bg:#EBEFE6; --surface:#F7F9F3; --ink:#12251A; --muted:#475A4D; --line:#C6D0BF;
+  --leaf:#1D5A39; --on-leaf:#FFFFFF; --leaf-soft:#DAE7D5;
+  --tomato:#C2381F; --tomato-soft:#F5DDD5;
+  --amber:#7D5200; --amber-soft:#F1E4C0; --focus:#0B57D0;
+  --blade:#4F8F5B; --blade-edge:#2F6B3C; --vein:#D3E8CB; --lesion:#6A3E1E; --halo:#D3C24A;
+  --display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;
+  --sans:'Instrument Sans','Segoe UI',system-ui,sans-serif;
+  --mono-latin:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+  --mono:var(--mono-latin);
+  --ur:'Noto Naskh Arabic','Noto Nastaliq Urdu','Segoe UI',Tahoma,serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0C1510; --surface:#132019; --ink:#E4ECE0; --muted:#9DB0A3; --line:#28392E;
+    --leaf:#86CC9D; --on-leaf:#0C1510; --leaf-soft:#1A3025;
+    --tomato:#FF8A70; --tomato-soft:#3A1F1A;
+    --amber:#E9C068; --amber-soft:#322810; --focus:#7FB0FF;
+    --blade:#3C7A4C; --blade-edge:#5FA874; --vein:#8FC59A; --lesion:#B98350; --halo:#BDAE45;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0C1510; --surface:#132019; --ink:#E4ECE0; --muted:#9DB0A3; --line:#28392E;
+  --leaf:#86CC9D; --on-leaf:#0C1510; --leaf-soft:#1A3025;
+  --tomato:#FF8A70; --tomato-soft:#3A1F1A;
+  --amber:#E9C068; --amber-soft:#322810; --focus:#7FB0FF;
+  --blade:#3C7A4C; --blade-edge:#5FA874; --vein:#8FC59A; --lesion:#B98350; --halo:#BDAE45;
+  color-scheme:dark;
+}
+html[lang="ur"]{--sans:var(--ur);--display:var(--ur);--mono:var(--ur)}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--sans);-webkit-text-size-adjust:100%}
+html[lang="ur"] body{line-height:1.95}
+html[lang="ur"] *{letter-spacing:0!important;text-transform:none!important}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+h1,h2,h3,h4,p,ol,ul,dl,dd,figure{margin:0}
+h1,h2,h3,h4{font-family:var(--display);text-wrap:balance;line-height:1.1}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.wrap{max-width:1120px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.mono{font-family:var(--mono)}
+
+/* top strip + header */
+.strip{background:var(--leaf);color:var(--on-leaf);font:500 12px/1.4 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+.strip .wrap{padding-block:7px;text-align:center}
+.site{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+.site .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:6px 20px;padding-block:8px}
+.brand{display:flex;align-items:center;gap:10px;font:700 21px/1 var(--display);text-decoration:none;min-height:44px}
+.brand svg{width:30px;height:30px;flex:none}
+.nav{order:3;flex:1 1 100%;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;margin-inline:-6px}
+.nav::-webkit-scrollbar{display:none}
+.nav a{flex:none;display:inline-flex;align-items:center;min-height:44px;padding:0 12px;text-decoration:none;font-size:15px;font-weight:500;color:var(--muted);border-radius:6px}
+.nav a:hover{color:var(--ink);background:var(--leaf-soft)}
+.ctrl{margin-inline-start:auto;display:flex;gap:8px}
+@media (min-width:920px){.nav{order:2;flex:1 1 auto;justify-content:center;margin-inline:0}}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border:1.5px solid var(--line);border-radius:6px;background:transparent;color:var(--ink);font:600 15px/1 var(--sans);cursor:pointer;text-decoration:none;transition:background .15s,border-color .15s}
+.btn:hover{border-color:var(--ink)}
+.btn-primary{background:var(--leaf);border-color:var(--leaf);color:var(--on-leaf)}
+.btn-primary:hover{border-color:var(--ink);filter:brightness(1.08)}
+.btn[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.btn-sm{padding:0 14px;font-size:14px}
+
+/* hero */
+.hero{padding-block:48px 56px}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:48px;align-items:center}
+.kicker{font:500 13px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+h1{font-size:clamp(40px,6.4vw,72px);font-weight:800;letter-spacing:-.02em}
+h1 em{font-style:normal;color:var(--tomato)}
+.hero p.lead{margin-top:20px;max-width:34em;font-size:18px;color:var(--muted)}
+.hero .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.hero .note{margin-top:18px;font:400 13px/1.5 var(--mono);color:var(--muted)}
+.plate-fig{max-width:420px;margin-inline:auto;width:100%}
+.plate{display:block;width:100%;height:auto;background:var(--surface)}
+.pl-frame{fill:none;stroke:var(--ink);stroke-width:1.5}
+.pl-frame.thin{stroke:var(--line);stroke-width:1}
+.pl-mono{font:500 11px var(--mono-latin);fill:var(--muted);letter-spacing:.08em}
+.pl-lat{font:italic 600 16px var(--sans);fill:var(--ink)}
+.pl-lab{font:400 11px var(--mono-latin);fill:var(--ink)}
+.pl-lead{fill:none;stroke:var(--ink);stroke-width:.8}
+.blade{fill:var(--blade);stroke:var(--blade-edge);stroke-width:2}
+.vein{fill:none;stroke:var(--vein);stroke-width:1.6;stroke-linecap:round;opacity:.9}
+.vein.main{stroke-width:3.2;opacity:1}
+.les .halo{fill:var(--halo);opacity:.6}
+.les .spot{fill:var(--lesion)}
+.les .ring{fill:none;stroke:var(--blade-edge);stroke-width:1.2;opacity:.75}
+@media (max-width:820px){.hero .wrap{grid-template-columns:minmax(0,1fr);gap:36px}.hero{padding-block:32px 40px}}
+
+/* sections */
+.sec{padding-block:64px;border-top:1px solid var(--line);scroll-margin-top:100px}
+.sec-head{max-width:46em;margin-bottom:32px}
+.eyebrow{font:500 13px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--tomato);margin-bottom:10px}
+.sec-head h2{font-size:clamp(28px,4.2vw,42px);font-weight:700;letter-spacing:-.015em}
+.sec-head p{margin-top:12px;color:var(--muted);font-size:17px}
+@media (max-width:640px){.sec{padding-block:44px}}
+
+/* leaf check */
+.tool{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start}
+@media (max-width:900px){.tool{grid-template-columns:minmax(0,1fr)}}
+.stage{position:relative;aspect-ratio:4/3;max-width:100%;background:var(--surface);border:1.5px dashed var(--muted);border-radius:8px;overflow:hidden}
+.stage.over{border-color:var(--leaf);background:var(--leaf-soft)}
+.drop{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px;text-align:center;cursor:pointer}
+.drop:focus-within{outline:3px solid var(--focus);outline-offset:-3px}
+.drop svg{width:38px;height:38px;color:var(--leaf)}
+.drop strong{font:700 18px/1.2 var(--display)}
+.drop span.s{font-size:14px;color:var(--muted)}
+.drop .btn{margin-top:6px;pointer-events:none}
+.preview{position:absolute;inset:0;background:#111}
+.preview canvas{display:block;width:100%;height:100%;object-fit:cover}
+.camera-view{position:absolute;inset:0;background:#101810;z-index:3}
+.camera-view video{display:block;width:100%;height:100%;object-fit:cover}
+.camera-live{position:absolute;top:12px;inset-inline-start:12px;display:flex;align-items:center;gap:7px;padding:6px 10px;border-radius:999px;background:#101810d9;color:#fff;font:600 11px/1 var(--mono);letter-spacing:.08em}
+.camera-live i{width:7px;height:7px;border-radius:50%;background:#ff604b;box-shadow:0 0 0 4px #ff604b30}
+.camera-controls{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.camera-note{margin-top:8px;color:var(--muted);font-size:13px}
+@media(max-width:480px){.camera-controls .btn{flex:1 1 100%}}
+.clear{position:absolute;top:10px;inset-inline-end:10px;width:44px;height:44px;border-radius:50%;border:1.5px solid rgba(255,255,255,.7);background:rgba(10,20,14,.78);color:#fff;display:grid;place-items:center;cursor:pointer}
+.clear svg{width:18px;height:18px}
+.scan{position:absolute;inset:0;background:rgba(134,204,157,.12);pointer-events:none}
+.scan i{position:absolute;inset-inline:0;height:3px;background:#9BE3B2;box-shadow:0 0 12px #9BE3B2;animation:sweep 1s ease-in-out infinite alternate}
+@keyframes sweep{from{top:0}to{top:calc(100% - 3px)}}
+.msg{min-height:1.6em;margin-top:8px;font-size:14px;color:var(--tomato)}
+.samples{margin-top:18px}
+.samples h3{font:500 13px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{min-height:44px;padding:0 14px;border:1.5px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink);font:500 14px/1 var(--sans);cursor:pointer}
+.chip:hover{border-color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--leaf);border-color:var(--leaf);color:var(--on-leaf)}
+.result{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:24px;min-height:360px}
+.empty{display:flex;flex-direction:column;gap:8px;justify-content:center;min-height:310px;color:var(--muted)}
+.empty h3{font-size:22px;color:var(--ink)}
+.res-head{display:grid;gap:10px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.res-head h3{font-size:clamp(24px,3.4vw,32px);font-weight:700}
+.conf{font-size:15px;color:var(--muted)}
+.conf strong{color:var(--ink)}
+.pill{display:inline-flex;align-items:center;width:fit-content;min-height:28px;padding:0 12px;border-radius:999px;font:500 12px/1 var(--mono);letter-spacing:.04em;background:var(--leaf-soft);color:var(--leaf)}
+.pill.bad{background:var(--tomato-soft);color:var(--tomato)}
+.pill.warn{background:var(--amber-soft);color:var(--amber)}
+.pill.neutral{background:var(--bg);color:var(--muted);border:1px solid var(--line)}
+.bars{display:grid;gap:10px;padding-block:18px;border-bottom:1px solid var(--line)}
+.bars h4,.res-sec h4{font:500 13px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.bar{display:grid;grid-template-columns:minmax(0,8.5rem) minmax(0,1fr) 3rem;gap:12px;align-items:center;font-size:14px}
+.bar .track{height:8px;background:var(--bg);border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.bar .fill{display:block;height:100%;width:var(--w);background:var(--c)}
+.bar b{font:500 14px var(--mono-latin);text-align:end;font-variant-numeric:tabular-nums}
+.res-sec{padding-top:16px}
+.res-sec p{margin-top:4px}
+.res-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:20px}
+.res-actions span{font-size:14px;color:var(--muted)}
+.report{display:block;width:100%;margin-top:12px;min-height:150px;padding:12px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);font:400 13px/1.5 var(--mono-latin);direction:ltr}
+.fine{margin-top:16px;font-size:13px;color:var(--muted)}
+.judge-only{display:none}
+body.judge .judge-only{display:block}
+.judge-panel{margin-top:28px;border:1.5px solid var(--ink);border-radius:8px;padding:22px;background:var(--surface)}
+.judge-panel h3{font-size:20px;margin-bottom:12px}
+.judge-panel ol{padding-inline-start:1.3em;display:grid;gap:8px;font-size:15px}
+.judge-line{margin-top:12px;font:400 13px var(--mono);color:var(--muted)}
+
+/* risk */
+.risk{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:28px}
+@media (max-width:820px){.risk{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:24px}
+.field+.field{margin-top:22px}
+.field label{display:flex;justify-content:space-between;gap:12px;font-weight:600;font-size:15px}
+.field output{font:500 15px var(--mono-latin);font-variant-numeric:tabular-nums}
+.field input[type=range]{width:100%;height:44px;margin:4px 0 0;accent-color:var(--leaf);background:transparent}
+.rows{display:grid;gap:0}
+.rrow{display:grid;gap:6px;padding-block:16px;border-top:1px solid var(--line)}
+.rrow:first-child{border-top:0;padding-top:0}
+.rrow:last-child{padding-bottom:0}
+.rrow .top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.rrow h3{font-size:20px}
+.rrow p{font-size:15px;color:var(--muted)}
+
+/* library */
+.tools{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;margin-bottom:20px}
+.search{flex:1 1 260px;max-width:380px;min-height:44px;padding:0 14px;border:1.5px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);font:400 16px var(--sans)}
+.search::placeholder{color:var(--muted)}
+.count{font:400 13px var(--mono);color:var(--muted);margin-bottom:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,290px),1fr));gap:16px}
+.card{display:flex;flex-direction:column;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:20px;min-width:0}
+.card .tags{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.card h3{font-size:22px;font-weight:700}
+.cause{font:italic 400 14px var(--sans);color:var(--muted);margin-top:-6px}
+.card dt{font:500 12px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.card dd{font-size:15px;margin-top:2px}
+.card dl{display:grid;gap:12px}
+.card.reject{background:var(--amber-soft);border-color:var(--amber)}
+.sev{font:500 12px/1 var(--mono);color:var(--muted);display:inline-flex;align-items:center;gap:6px}
+.sev::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--amber)}
+.sev.severe::before{background:var(--tomato)}
+.noresult{padding:32px;border:1px dashed var(--line);border-radius:8px;color:var(--muted);text-align:center}
+
+/* how */
+.steps{list-style:none;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:24px}
+.steps li{border-top:3px solid var(--ink);padding-top:14px}
+.steps .n{font:500 12px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--tomato)}
+.steps h3{font-size:20px;margin:6px 0}
+.steps p{font-size:15px;color:var(--muted)}
+@media (max-width:980px){.steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.steps{grid-template-columns:minmax(0,1fr)}}
+
+/* guide */
+.gg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+@media (max-width:760px){.gg{grid-template-columns:minmax(0,1fr)}}
+.gg .panel h3{font-size:22px;margin-bottom:10px}
+.gg .panel p{color:var(--muted)}
+.steam{list-style:none;padding:0;display:grid;gap:12px}
+.steam li{display:grid;grid-template-columns:34px minmax(0,1fr);gap:12px;align-items:start}
+.steam .l{width:34px;height:34px;display:grid;place-items:center;border:1.5px solid var(--ink);border-radius:4px;font:700 17px var(--mono-latin)}
+.steam b{display:block;font-size:15px}
+.steam span.t{font-size:15px;color:var(--muted)}
+
+/* footer */
+.foot{border-top:1px solid var(--line);padding-block:40px 96px}
+.foot .wrap{display:grid;gap:10px;max-width:760px;margin-inline:0}
+.foot strong{font:700 18px var(--display)}
+.foot p{color:var(--muted);font-size:15px}
+
+/* pitch */
+.fab{position:fixed;z-index:25;bottom:calc(16px + env(safe-area-inset-bottom,0px));right:calc(16px + env(safe-area-inset-right,0px));box-shadow:0 4px 18px rgba(0,0,0,.25)}
+html[dir="rtl"] .fab{right:auto;left:calc(16px + env(safe-area-inset-left,0px))}
+dialog{width:calc(100% - 32px);max-width:640px;max-height:calc(100% - 48px);padding:0;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink)}
+dialog::backdrop{background:rgba(5,12,8,.62)}
+.dlg{padding:24px;display:grid;gap:18px}
+.dlg h2{font-size:26px}
+.dlg .sub{color:var(--muted);margin-top:4px;font-size:15px}
+.qa{display:grid;gap:14px}
+.qa dt{font-weight:600}
+.qa dd{margin-top:2px;color:var(--muted);font-size:15px}
+.dlg h3{font:500 13px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--tomato)}
+</style>
+
+<style id="agrovision-motion-upgrade">
+/* AgroVision field-cinema layer */
+:root{--bg:#e9eee3;--surface:#f8faf4;--ink:#14271b;--muted:#526456;--line:#c5d2bd;--leaf:#245f3b;--tomato:#d14b2d}
+body{overflow-x:hidden}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.14;background-image:radial-gradient(#425d43 .65px,transparent .65px);background-size:6px 6px;mask-image:linear-gradient(to bottom,black,transparent 65%)}
+.site,.strip,main,.foot,.fab,dialog{position:relative;z-index:1}
+.strip{letter-spacing:.12em}
+.site{backdrop-filter:blur(16px);background:color-mix(in srgb,var(--bg) 88%,transparent)}
+.brand{letter-spacing:-.04em}
+.brand svg{filter:drop-shadow(0 4px 8px #245f3b20);transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.brand:hover svg{transform:rotate(-12deg) scale(1.08)}
+.hero{position:relative;isolation:isolate;overflow:hidden;padding-block:clamp(42px,7vw,92px) clamp(54px,8vw,100px)}
+.hero:before{content:"";position:absolute;z-index:-1;width:52vw;height:52vw;max-width:740px;max-height:740px;min-width:360px;min-height:360px;right:-8%;top:-30%;border-radius:50%;background:radial-gradient(circle,#d7e7c7 0%,#e9eee3 66%,transparent 70%);animation:slow-breathe 9s ease-in-out infinite alternate}
+.hero .wrap{gap:clamp(28px,5vw,68px)}
+.kicker,.eyebrow{letter-spacing:.15em}
+.kicker:before{content:"";display:inline-block;width:24px;height:2px;background:var(--tomato);vertical-align:middle;margin-right:10px}
+h1{font-size:clamp(48px,7.2vw,88px);line-height:.98;letter-spacing:-.055em}
+h1 em{display:inline-block;color:var(--tomato);text-shadow:0 7px 22px #c2381f18}
+.hero p.lead{max-width:32em;font-size:clamp(17px,1.5vw,20px);line-height:1.65}
+.btn{border-radius:999px;transition:transform .25s,box-shadow .25s,background .25s}
+.btn:hover{transform:translateY(-3px);box-shadow:0 10px 24px #12251a16}
+.btn-primary{box-shadow:0 8px 22px #245f3b26}
+.farm-hero-art{max-width:500px;position:relative;filter:drop-shadow(0 24px 30px #263e2615);animation:hero-arrive 1s cubic-bezier(.16,1,.3,1) both}
+.farm-scene{display:block;width:100%;height:auto;border-radius:10px;overflow:visible}
+.sun-disc{transform-origin:400px 105px;animation:sun-pulse 5s ease-in-out infinite}
+.sun-rays{transform-origin:400px 105px;animation:sun-rotate 36s linear infinite}
+.farmer{transform-origin:266px 420px;animation:farmer-sway 4.8s ease-in-out infinite}
+.tomato-vines{transform-origin:center bottom;animation:vine-sway 5s ease-in-out infinite alternate}
+.floating-seed{animation:seed-float 6s ease-in-out infinite}
+.seed-two{animation-delay:-2s}.seed-three{animation-delay:-4s}
+.field-lines{animation:field-drift 12s ease-in-out infinite alternate}
+.farm-caption{display:flex;align-items:center;gap:10px;margin-top:12px;color:var(--muted);font:500 12px/1.5 var(--mono);letter-spacing:.03em}
+.caption-dot{width:8px;height:8px;border-radius:50%;background:#5e9a54;box-shadow:0 0 0 5px #5e9a541b;animation:dot-pulse 2.2s infinite}
+.sec{padding-block:clamp(48px,7vw,84px);position:relative}
+.sec-head{max-width:50em}
+.sec-head h2{letter-spacing:-.035em;font-size:clamp(32px,4.5vw,48px)}
+.sec-head p{max-width:44em;line-height:1.7}
+.panel,.result,.card,.judge-panel{border-radius:14px;box-shadow:0 12px 34px #182d1b08;transition:transform .28s,box-shadow .28s,border-color .28s}
+.card:hover{transform:translateY(-5px);box-shadow:0 18px 34px #182d1b12;border-color:#8ca98a}
+.panel:hover,.result:hover{border-color:#9ab397}
+.stage{border-radius:14px;border-style:dashed;transition:background .25s,border-color .25s}
+.stage.over{box-shadow:inset 0 0 0 3px #245f3b12}
+.chip{transition:transform .2s,background .2s,border-color .2s;border-radius:999px}
+.chip:hover{transform:translateY(-2px)}
+.bar .fill{transform-origin:left;animation:bar-grow .9s cubic-bezier(.2,.8,.2,1) both}
+.steps li{transition:transform .25s}
+.steps li:hover{transform:translateY(-4px)}
+.steps .n{display:inline-block}
+.foot{background:linear-gradient(180deg,transparent,#dfe8d8 100%)}
+.fab{box-shadow:0 12px 28px #12251a2b}
+dialog{box-shadow:0 30px 90px #06130b55}
+@keyframes slow-breathe{from{transform:translate3d(0,0,0) scale(.96)}to{transform:translate3d(-2%,3%,0) scale(1.04)}}
+@keyframes hero-arrive{from{opacity:0;transform:translateY(24px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes sun-pulse{0%,100%{opacity:.85;transform:scale(1)}50%{opacity:1;transform:scale(1.06)}}
+@keyframes sun-rotate{to{transform:rotate(360deg)}}
+@keyframes farmer-sway{0%,100%{transform:rotate(0deg) translateY(0)}50%{transform:rotate(.6deg) translateY(-3px)}}
+@keyframes vine-sway{from{transform:rotate(-1deg)}to{transform:rotate(1deg)}}
+@keyframes seed-float{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-13px) rotate(8deg)}}
+@keyframes field-drift{from{transform:translateX(-3px)}to{transform:translateX(3px)}}
+@keyframes dot-pulse{0%,100%{box-shadow:0 0 0 4px #5e9a5415}50%{box-shadow:0 0 0 8px #5e9a540b}}
+@keyframes bar-grow{from{transform:scaleX(.05)}to{transform:scaleX(1)}}
+@media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
+@media (max-width:820px){.hero:before{right:-40%;top:-10%}.farm-hero-art{max-width:440px}.hero .wrap{gap:28px}}
+
+/* Responsive animated navigation */
+.site .wrap{position:relative}
+.site .wrap > .flex{display:flex;align-items:center;gap:12px;flex:1;min-width:0}
+.hamburger{display:none;width:44px;height:44px;flex:none;align-items:center;justify-content:center;flex-direction:column;gap:5px;border:1px solid var(--line);border-radius:10px;background:var(--surface);cursor:pointer}
+.hamburger span{display:block;width:19px;height:2px;border-radius:2px;background:var(--ink);transition:transform .25s ease,opacity .2s ease}
+.hamburger.active span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.active span:nth-child(2){opacity:0;transform:scaleX(.3)}
+.hamburger.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+#lang-btn{display:none}
+@media (max-width:768px){
+  .site .wrap{gap:8px 10px}
+  .hamburger{display:flex;margin-inline-start:auto}
+  .site .wrap > .flex{display:contents}
+  .site .nav{position:absolute;top:calc(100% + 1px);left:16px;right:16px;z-index:30;order:initial;display:flex;flex-direction:column;gap:4px;margin:0;padding:0 10px;max-height:0;overflow:hidden;visibility:hidden;opacity:0;transform:translateY(-8px);border:1px solid transparent;border-radius:0 0 14px 14px;background:var(--surface);box-shadow:0 16px 28px rgba(18,37,26,.12);transition:max-height .3s ease,padding .3s ease,opacity .2s ease,transform .3s ease,visibility .3s}
+  .site.nav-open .nav{max-height:390px;padding:10px;visibility:visible;opacity:1;transform:translateY(0);border-color:var(--line)}
+  .site .nav a{width:100%;min-height:44px;padding:0 14px;border-radius:8px}
+  .site .ctrl{margin-inline-start:0;display:flex;gap:8px}
+  .site .ctrl .btn{min-height:40px;padding-inline:12px}
+}
+@media (min-width:769px){
+  .site .nav{position:static;max-height:none;visibility:visible;opacity:1;transform:none;overflow:visible}
+}
+</style>
+
+
+<div class="strip"><div class="wrap" data-i18n="strip">Class 11 STEAM Exhibition · Pakistan</div></div>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="AgroVision">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 29C7 25 3 15 8 8c3-4 6-5 8-7 2 2 5 3 8 7 5 7 1 17-8 21z" fill="var(--leaf)"/><path d="M16 28V8" stroke="var(--bg)" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="17" r="2.4" fill="var(--tomato)"/></svg>
+      <span>AgroVision</span>
+    </a>
+    <button class="hamburger" id="hamburger" type="button"
+      aria-label="Open navigation menu" aria-expanded="false" aria-controls="agro-nav">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="flex items-center gap-3">
+                <button id="lang-btn" onclick="toggleLanguage()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-950 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-900 transition flex items-center gap-2">
+                    <i class="fa-solid fa-globe text-emerald-400"></i>
+                    <span id="lang-text">URDU</span>
+                </button>
+    <nav class="nav" id="agro-nav" aria-label="Sections">
+      <a href="#scan" data-i18n="nav_scan">Leaf check</a>
+      <a href="#risk" data-i18n="nav_risk">Blight risk</a>
+      <a href="#library" data-i18n="nav_lib">Disease library</a>
+      <a href="#how" data-i18n="nav_how">How it works</a>
+      <a href="#guide" data-i18n="nav_guide">Exhibition guide</a>
+    </nav>
+    <div class="ctrl">
+      <button class="btn btn-sm" id="lang" type="button" lang="ur">اردو</button>
+      <button class="btn btn-sm" id="judge" type="button" aria-pressed="false"><span data-i18n="judge">Judge mode</span></button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <p class="kicker" data-i18n="hero_k">Tomato leaf screening</p>
+        <h1 data-i18n-html="hero_h">Check the leaf. Catch the <em>blight</em> early.</h1>
+        <p class="lead" data-i18n="hero_p">Photograph a tomato leaf and AgroVision reads its colour pattern in your browser. It tells you whether the leaf looks healthy, shows signs of blight or yellowing, or is not a leaf photo at all.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#scan" data-i18n="cta1">Check a leaf</a>
+          <a class="btn" href="#guide" data-i18n="cta2">Exhibition guide</a>
+        </div>
+        <p class="note" data-i18n="hero_n">Photos stay on your device. Nothing is uploaded.</p>
+      </div>
+<figure class="plate-fig farm-hero-art" aria-label="Animated illustration of a farmer working in a tomato field">
+  <svg class="farm-scene" viewBox="0 0 520 560" role="img" aria-label="A farmer in a tomato field at sunrise">
+    <defs>
+      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F8DFA1"/><stop offset="1" stop-color="#F3F0D9"/></linearGradient>
+      <linearGradient id="field" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#739A55"/><stop offset="1" stop-color="#1D5A39"/></linearGradient>
+      <linearGradient id="shirt" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#F3E7C8"/><stop offset="1" stop-color="#C9D7B8"/></linearGradient>
+      <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="7"/></filter>
+    </defs>
+    <rect x="8" y="8" width="504" height="544" rx="8" fill="#F7F9F3" stroke="#C6D0BF"/>
+    <circle class="sun-disc" cx="400" cy="105" r="43" fill="#E8B94F"/>
+    <g class="sun-rays" stroke="#E8B94F" stroke-width="2" opacity=".7">
+      <path d="M400 42v-14M400 182v-14M337 105h-14M477 105h-14M355 60l-10-10M455 160l-10-10M445 60l10-10M355 150l-10 10"/>
+    </g>
+    <path d="M8 235 Q95 165 190 218 T360 208 T512 205 V552 H8Z" fill="#D7E1BD"/>
+    <path d="M8 275 Q100 220 180 267 T350 252 T512 255 V552 H8Z" fill="url(#field)"/>
+    <g class="field-lines" fill="none" stroke="#A8C17D" stroke-width="3" opacity=".8">
+      <path d="M-15 330 Q155 300 535 338"/><path d="M-15 390 Q170 355 535 400"/><path d="M-15 458 Q180 420 535 470"/><path d="M-15 520 Q180 490 535 540"/>
+    </g>
+    <g class="tomato-vines">
+      <g transform="translate(70 320)"><path d="M0 35V-20M0 0l-23-13M0 9l24-18" stroke="#245A35" stroke-width="4" fill="none"/><ellipse cx="-22" cy="-14" rx="17" ry="8" transform="rotate(28 -22 -14)" fill="#6B9D50"/><ellipse cx="22" cy="-10" rx="17" ry="8" transform="rotate(-30 22 -10)" fill="#6B9D50"/><circle cx="-7" cy="12" r="10" fill="#C2381F"/><circle cx="12" cy="2" r="8" fill="#E65A38"/></g>
+      <g transform="translate(438 300) scale(1.1)"><path d="M0 35V-20M0 0l-23-13M0 9l24-18" stroke="#245A35" stroke-width="4" fill="none"/><ellipse cx="-22" cy="-14" rx="17" ry="8" transform="rotate(28 -22 -14)" fill="#6B9D50"/><ellipse cx="22" cy="-10" rx="17" ry="8" transform="rotate(-30 22 -10)" fill="#6B9D50"/><circle cx="-7" cy="12" r="10" fill="#C2381F"/><circle cx="12" cy="2" r="8" fill="#E65A38"/></g>
+    </g>
+    <ellipse cx="272" cy="477" rx="91" ry="17" fill="#12251A" opacity=".25" filter="url(#softShadow)"/>
+    <g class="farmer">
+      <!-- legs and boots -->
+      <path d="M235 393 L225 465 Q222 481 239 484 L259 484 L271 419Z" fill="#304A37"/>
+      <path d="M276 395 L287 463 Q289 476 307 477 L327 477 Q334 468 320 460 L308 454 L307 396Z" fill="#3D5A3F"/>
+      <path d="M225 470 Q243 468 259 477 L258 491 L220 491 Q214 482 225 470Z" fill="#503A2A"/>
+      <path d="M289 465 Q308 460 324 469 L334 484 L289 485Z" fill="#503A2A"/>
+      <!-- torso -->
+      <path d="M226 255 Q252 235 286 253 L311 344 L299 414 Q266 431 226 410 L220 339Z" fill="url(#shirt)" stroke="#35533A" stroke-width="2"/>
+      <path d="M249 252 L265 285 L284 252" fill="#D3DFCA" stroke="#35533A" stroke-width="2"/>
+      <path d="M240 311 L292 311" stroke="#B4C7A8" stroke-width="2"/>
+      <!-- arms -->
+      <path d="M228 271 Q207 288 196 321 L220 341 Q240 315 250 292Z" fill="#B7794C"/>
+      <path d="M292 270 Q313 291 323 321 L303 337 Q285 311 276 291Z" fill="#B7794C"/>
+      <!-- neck and head -->
+      <path d="M251 235 L252 260 Q266 275 280 258 L278 235Z" fill="#B7794C"/>
+      <ellipse cx="266" cy="213" rx="29" ry="36" fill="#C78B5B"/>
+      <path d="M238 211 Q231 175 260 173 Q291 173 296 204 L286 197 Q270 187 251 198 L243 219Z" fill="#24382A"/>
+      <path d="M229 194 Q265 167 302 192 L306 204 Q268 190 234 209Z" fill="#C9A45B"/>
+      <path d="M229 194 Q264 177 302 192 L304 200 Q264 188 231 204Z" fill="#E2C578"/>
+      <path d="M255 220 Q267 225 278 219" fill="none" stroke="#805137" stroke-width="2" stroke-linecap="round"/>
+      <!-- hand-held seedling -->
+      <path d="M196 330 L179 294" stroke="#6C4D2E" stroke-width="4" stroke-linecap="round"/>
+      <path d="M179 295 Q155 278 157 260 Q180 265 184 286 Q192 263 212 263 Q207 286 182 297Z" fill="#3F824A" stroke="#245A35" stroke-width="1.5"/>
+    </g>
+    <g class="floating-seed seed-one"><circle cx="130" cy="126" r="4" fill="#C2381F"/><path d="M130 120q-10-8-12 2q7 8 12-2" fill="#4F8F5B"/></g>
+    <g class="floating-seed seed-two"><circle cx="355" cy="215" r="3" fill="#C2381F"/><path d="M355 210q-9-7-10 2q6 7 10-2" fill="#4F8F5B"/></g>
+    <g class="floating-seed seed-three"><circle cx="106" cy="202" r="3" fill="#E8B94F"/><path d="M106 197q-8-7-9 2q5 7 9-2" fill="#4F8F5B"/></g>
+    <rect x="24" y="24" width="126" height="28" rx="14" fill="#12251A"/>
+    <text x="87" y="42" text-anchor="middle" fill="#F7F9F3" font-size="11" font-family="monospace" letter-spacing="1.4">FIELD NOTES / 01</text>
+    <rect x="24" y="504" width="472" height="32" rx="4" fill="#F7F9F3" opacity=".95"/>
+    <text x="38" y="524" fill="#12251A" font-size="11" font-family="monospace">TOMATO FIELD · SINDH, PAKISTAN</text>
+    <text x="482" y="524" text-anchor="end" fill="#C2381F" font-size="11" font-family="monospace">AGV—01</text>
+  </svg>
+  <figcaption class="farm-caption"><span class="caption-dot"></span> A healthier harvest starts with one leaf.</figcaption>
+</figure>
+    </div>
+  </section>
+
+  <section class="sec" id="scan">
+    <div class="wrap">
+      <header class="sec-head">
+        <p class="eyebrow" data-i18n="ey_scan">Tool</p>
+        <h2 data-i18n="scan_t">Leaf check</h2>
+        <p data-i18n="scan_s">Upload a photo or run one of the sample leaves. Use one leaf, good daylight and a plain background.</p>
+      </header>
+      <div class="tool">
+        <div>
+          <div class="stage" id="stage">
+            <label class="drop" id="drop" for="file">
+              <input class="sr" type="file" id="file" accept="image/jpeg,image/png">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
+              <strong data-i18n="drop_t">Drop a leaf photo here</strong>
+              <span class="s" data-i18n="drop_s">or choose a JPG or PNG file</span>
+              <span class="btn btn-sm" data-i18n="browse">Choose file</span>
+            </label>
+            <div class="preview" id="preview" hidden>
+              <canvas id="view" width="480" height="360" role="img" aria-label="Selected leaf photo"></canvas>
+              <div class="scan" id="scanfx" hidden><i></i></div>
+              <button class="clear" id="clear" type="button" data-i18n-aria="clear" aria-label="Remove photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+            </div>
+            <div class="camera-view" id="cameraView" hidden>
+              <video id="cameraVideo" autoplay playsinline muted aria-label="Live camera view"></video>
+              <span class="camera-live"><i></i> LIVE</span>
+            </div>
+          </div>
+          <div class="camera-controls" role="group" aria-label="Live camera controls">
+            <button class="btn btn-primary" id="cameraStart" type="button">◎ Use live camera</button>
+            <button class="btn" id="cameraCapture" type="button" hidden>Capture &amp; scan</button>
+            <button class="btn" id="cameraStop" type="button" hidden>Stop camera</button>
+          </div>
+          <p class="camera-note" id="cameraNote">Allow camera access, point at one tomato leaf, then capture it to run the on-page screening.</p>
+          <p class="msg" id="msg" role="alert"></p>
+          <div class="samples">
+            <h3 id="samples-h" data-i18n="samples_t">Sample leaves</h3>
+            <div class="chips" role="group" aria-labelledby="samples-h">
+              <button class="chip" type="button" data-sample="early" data-i18n="s_early">Early blight</button>
+              <button class="chip" type="button" data-sample="late" data-i18n="s_late">Late blight</button>
+              <button class="chip" type="button" data-sample="healthy" data-i18n="s_healthy">Healthy</button>
+              <button class="chip" type="button" data-sample="curl" data-i18n="s_curl">Yellowing</button>
+              <button class="chip" type="button" data-sample="apple" data-i18n="s_apple">Apple (not a leaf)</button>
+            </div>
+          </div>
+        </div>
+        <div class="result" id="res" aria-live="polite"></div>
+      </div>
+      <div class="judge-only judge-panel" id="judgebox">
+        <h3 data-i18n="j_t">Judge mode: how the check decides</h3>
+        <ol id="jrules"></ol>
+        <p class="judge-line" id="jline"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="risk">
+    <div class="wrap">
+      <header class="sec-head">
+        <p class="eyebrow" data-i18n="ey_risk">Weather</p>
+        <h2 data-i18n="risk_t">Blight weather risk</h2>
+        <p data-i18n="risk_s">Set today's temperature and humidity. This rule-of-thumb guide shows which blight the weather favours. It is not a forecast.</p>
+      </header>
+      <div class="risk">
+        <div class="panel">
+          <div class="field">
+            <label for="temp"><span data-i18n="temp">Air temperature</span><output id="temp-o" for="temp">22 °C</output></label>
+            <input type="range" id="temp" min="5" max="40" step="1" value="22">
+          </div>
+          <div class="field">
+            <label for="hum"><span data-i18n="hum">Relative humidity</span><output id="hum-o" for="hum">92%</output></label>
+            <input type="range" id="hum" min="30" max="100" step="1" value="92">
+          </div>
+        </div>
+        <div class="panel"><div class="rows" id="riskrows" aria-live="polite"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="library">
+    <div class="wrap">
+      <header class="sec-head">
+        <p class="eyebrow" data-i18n="ey_lib">Reference</p>
+        <h2 data-i18n="lib_t">Disease library</h2>
+        <p data-i18n="lib_s">Symptoms and first steps for common tomato leaf problems.</p>
+      </header>
+      <div class="tools">
+        <div class="chips" role="group" aria-label="Filter" id="filters">
+          <button class="chip" type="button" data-f="all" aria-pressed="true" data-i18n="f_all">All</button>
+          <button class="chip" type="button" data-f="fungal" aria-pressed="false" data-i18n="f_fungal">Fungal</button>
+          <button class="chip" type="button" data-f="bacterial" aria-pressed="false" data-i18n="f_bacterial">Bacterial</button>
+          <button class="chip" type="button" data-f="viral" aria-pressed="false" data-i18n="f_viral">Viral</button>
+          <button class="chip" type="button" data-f="pest" aria-pressed="false" data-i18n="f_pest">Pests</button>
+          <button class="chip" type="button" data-f="healthy" aria-pressed="false" data-i18n="f_healthy">Healthy</button>
+          <button class="chip" type="button" data-f="rejected" aria-pressed="false" data-i18n="f_rejected">Not a leaf</button>
+        </div>
+        <input class="search" id="search" type="search" data-i18n-ph="search" placeholder="Search by name or cause" aria-label="Search">
+      </div>
+      <p class="count" id="count" aria-live="polite"></p>
+      <div class="grid" id="cards"></div>
+      <div class="noresult" id="noresult" hidden data-i18n="lib_none">No match. Try another name.</div>
+    </div>
+  </section>
+
+  <section class="sec" id="how">
+    <div class="wrap">
+      <header class="sec-head">
+        <p class="eyebrow" data-i18n="ey_how">Method</p>
+        <h2 data-i18n="how_t">How it works</h2>
+        <p data-i18n="how_s">Five steps from photo to report.</p>
+      </header>
+      <ol class="steps" id="steps"></ol>
+    </div>
+  </section>
+
+  <section class="sec" id="guide">
+    <div class="wrap">
+      <header class="sec-head">
+        <p class="eyebrow" data-i18n="ey_guide">For judges</p>
+        <h2 data-i18n="guide_t">STEAM exhibition guide</h2>
+        <p data-i18n="guide_s">A quick reference for when judges visit the booth.</p>
+      </header>
+      <div class="gg" id="gg"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <strong data-i18n="foot_t">AgroVision · Class 11 STEAM Exhibition, Pakistan</strong>
+    <p data-i18n="foot_p">Farming supports millions of livelihoods in Pakistan. As Class 11 students we built this to show how a phone camera and simple code can help growers notice disease sooner.</p>
+    <p data-i18n="foot_d">This is a learning demonstration, not a diagnosis. Confirm any treatment with a local agriculture extension officer.</p>
+  </div>
+</footer>
+
+<button class="btn btn-primary fab" id="pitchbtn" type="button"><span data-i18n="pitch_b">Pitch notes</span></button>
+<dialog id="pitch" aria-labelledby="pitch-h">
+  <div class="dlg" id="pitchbody"></div>
+</dialog>
+
+<script>
+(function(){
+var W=480,H=360;
+function $(id){return document.getElementById(id)}
+var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+var lang='en';
+try{var sv=localStorage.getItem('agro-lang');if(sv==='ur'||sv==='en')lang=sv}catch(e){}
+
+var T={
+en:{
+strip:"Class 11 STEAM Exhibition · Pakistan",
+nav_scan:"Leaf check",nav_risk:"Blight risk",nav_lib:"Disease library",nav_how:"How it works",nav_guide:"Exhibition guide",
+judge:"Judge mode",
+hero_k:"Tomato leaf screening",
+hero_h:"Check the leaf. Catch the <em>blight</em> early.",
+hero_p:"Photograph a tomato leaf and AgroVision reads its colour pattern in your browser. It tells you whether the leaf looks healthy, shows signs of blight or yellowing, or is not a leaf photo at all.",
+cta1:"Check a leaf",cta2:"Exhibition guide",
+hero_n:"Photos stay on your device. Nothing is uploaded.",
+ey_scan:"Tool",ey_risk:"Weather",ey_lib:"Reference",ey_how:"Method",ey_guide:"For judges",
+scan_t:"Leaf check",
+scan_s:"Upload a photo or run one of the sample leaves. Use one leaf, good daylight and a plain background.",
+drop_t:"Drop a leaf photo here",drop_s:"or choose a JPG or PNG file",browse:"Choose file",
+clear:"Remove photo",
+samples_t:"Sample leaves",
+s_early:"Early blight",s_late:"Late blight",s_healthy:"Healthy",s_curl:"Yellowing",s_apple:"Apple (not a leaf)",
+err_type:"Choose a JPG or PNG photo.",err_size:"That file is over 15 MB. Choose a smaller photo.",err_read:"That image could not be read. Try another photo.",
+res_wait_t:"No leaf checked yet",
+res_wait_s:"The result, the colour measurements and the suggested action appear here.",
+res_busy:"Reading leaf colours…",
+res_conf:"Confidence",conf_high:"High",conf_med:"Medium",conf_low:"Low",
+crop_ok:"Leaf detected",crop_bad:"No leaf detected",
+m_t:"Colour measurements",m_green:"Healthy green",m_yellow:"Yellowing",m_brown:"Brown spots",m_dark:"Dark, water-soaked",
+res_symp:"What the photo shows",res_act:"What to do",
+copy:"Copy report",copied:"Copied to clipboard.",copy_fail:"Copy is blocked here. Select the text below and copy it.",
+res_disc:"Screening estimate from colour only. Confirm with an agriculture extension officer before spraying.",
+j_t:"Judge mode: how the check decides",
+j_rules:[
+"The photo is scaled to 480 × 360 and every second pixel is read.",
+"Each pixel becomes hue, saturation and brightness, then is counted as green, yellow, brown, dark or background.",
+"If fewer than 25% of the non-background pixels are green, the image is rejected as not a leaf.",
+"Brown or dark spots over 4% of the leaf mean blight signs: mostly dark means late blight, otherwise early blight. Yellow over 12% with few spots means yellowing.",
+"Limits: it does not identify the plant species, lighting changes colours, and similar diseases look alike. A trained model on PlantVillage is the next step."],
+j_px:"Pixels sampled: {n}. Leaf-coloured: {l}. Spot share: {s}%.",
+j_none:"Run a leaf to see the pixel counts.",
+risk_t:"Blight weather risk",
+risk_s:"Set today's temperature and humidity. This rule-of-thumb guide shows which blight the weather favours. It is not a forecast.",
+temp:"Air temperature",hum:"Relative humidity",
+late_b:"Late blight",early_b:"Early blight",
+r_low:"Low",r_mod:"Moderate",r_high:"High",
+r_late_high:"Cool and very humid. Phytophthora infestans spreads fastest at 10–24 °C with humidity of 90% or more.",
+r_late_mod:"Conditions are close. Watch leaves after rain or heavy dew.",
+r_late_low:"Too warm or too dry for late blight to spread quickly.",
+r_early_high:"Warm with moist leaves. Alternaria solani favours 24–29 °C and humidity above 70%.",
+r_early_mod:"Near its range. Early blight builds on older, stressed leaves first.",
+r_early_low:"Outside the range where early blight spreads quickly.",
+lib_t:"Disease library",lib_s:"Symptoms and first steps for common tomato leaf problems.",
+search:"Search by name or cause",
+f_all:"All",f_fungal:"Fungal",f_bacterial:"Bacterial",f_viral:"Viral",f_pest:"Pests",f_healthy:"Healthy",f_rejected:"Not a leaf",
+lib_none:"No match. Try another name.",lib_count:"{n} entries",
+l_sym:"Symptoms",l_care:"First steps",
+sev_severe:"Severe",sev_moderate:"Moderate",
+how_t:"How it works",how_s:"Five steps from photo to report.",step:"Step",
+steps:[
+["Upload","Add a photo of one tomato leaf, or run a sample."],
+["Crop check","Checks that the image has enough leaf green. Fruit, soil and sky are rejected."],
+["Colour sampling","Pixels are sorted into green, yellow, brown and dark."],
+["Classification","Rules compare the shares and pick the closest condition."],
+["Report","Read the action and copy the report to share."]],
+guide_t:"STEAM exhibition guide",guide_s:"A quick reference for when judges visit the booth.",
+g1h:"Problem statement",
+g1p:"Tomato crops lose yield to leaf diseases such as early blight and late blight. Checking plants by eye is slow and needs training.",
+g2h:"Our solution",
+g2p:"AgroVision screens a leaf photo inside the browser. There is no server, so once the page has loaded the check runs without a connection.",
+g3h:"Dataset and methodology",
+g3p:"The reference dataset is PlantVillage, which holds 54,303 leaf images. This demo reads colour shares from canvas pixels and applies rules. Training a neural network on that dataset is the planned next step.",
+g4h:"STEAM disciplines",
+steam:[
+["S","Science","Plant pathology, how spores spread, and the weather that favours each disease."],
+["T","Technology","HTML5 canvas pixel sampling and rule-based classification in JavaScript."],
+["E","Engineering","A single-file page that loads fast and runs on a phone."],
+["A","Arts","A field-guide look: specimen plate, readable type and right-to-left Urdu layout."],
+["M","Math","RGB to HSV conversion, percentage shares and thresholds."]],
+foot_t:"AgroVision · Class 11 STEAM Exhibition, Pakistan",
+foot_p:"Farming supports millions of livelihoods in Pakistan. As Class 11 students we built this to show how a phone camera and simple code can help growers notice disease sooner.",
+foot_d:"This is a learning demonstration, not a diagnosis. Confirm any treatment with a local agriculture extension officer.",
+pitch_b:"Pitch notes",pitch_t:"Pitch notes",pitch_s:"A short opening and the questions judges may ask.",
+pitch_o_h:"Opening",
+pitch_o:"We built AgroVision to help tomato growers spot leaf disease early. You photograph one leaf, the page measures its colours, rejects images that are not leaves, and suggests a first step. Everything runs in your browser.",
+pitch_q_h:"Likely questions",
+qa:[
+["Is this a trained neural network?","No. This demo reads colour shares from canvas pixels and applies rules. Training a model on PlantVillage is the next step."],
+["Do photos leave my phone?","No. The analysis runs in the browser and nothing is uploaded."],
+["How does it reject a bad photo?","If fewer than a quarter of the non-background pixels are leaf green, it says no leaf was detected. It cannot tell tomato leaves from other green leaves."],
+["What would make it more accurate?","Training on field photos as well as lab photos, adding leaf-shape checks, and testing with real farm leaves."]],
+close:"Close"
+},
+ur:{
+strip:"کلاس 11 اسٹیم نمائش · پاکستان",
+nav_scan:"پتے کی جانچ",nav_risk:"بلائٹ کا خطرہ",nav_lib:"بیماریوں کی فہرست",nav_how:"طریقہ کار",nav_guide:"نمائشی گائیڈ",
+judge:"جج موڈ",
+hero_k:"ٹماٹر کے پتوں کی جانچ",
+hero_h:"پتے کو پرکھیں۔ <em>بلائٹ</em> کو شروع ہی میں پکڑیں۔",
+hero_p:"ٹماٹر کے پتے کی تصویر لیں۔ اگرو وژن آپ کے براؤزر ہی میں اس کے رنگوں کا جائزہ لیتا ہے اور بتاتا ہے کہ پتا صحت مند ہے، بلائٹ یا پیلاہٹ کی علامات ہیں، یا تصویر پتے کی ہے ہی نہیں۔",
+cta1:"پتا جانچیں",cta2:"نمائشی گائیڈ",
+hero_n:"تصاویر آپ کے آلے پر ہی رہتی ہیں۔ کچھ اپ لوڈ نہیں ہوتا۔",
+ey_scan:"ٹول",ey_risk:"موسم",ey_lib:"حوالہ",ey_how:"طریقہ",ey_guide:"ججوں کے لیے",
+scan_t:"پتے کی جانچ",
+scan_s:"تصویر اپ لوڈ کریں یا نمونے کے پتوں میں سے کوئی چلائیں۔ ایک پتا، اچھی دھوپ اور سادہ پس منظر رکھیں۔",
+drop_t:"پتے کی تصویر یہاں چھوڑیں",drop_s:"یا JPG یا PNG فائل منتخب کریں",browse:"فائل منتخب کریں",
+clear:"تصویر ہٹائیں",
+samples_t:"نمونے کے پتے",
+s_early:"ارلی بلائٹ",s_late:"لیٹ بلائٹ",s_healthy:"صحت مند",s_curl:"پیلاہٹ",s_apple:"سیب (پتا نہیں)",
+err_type:"JPG یا PNG تصویر منتخب کریں۔",err_size:"فائل 15 MB سے بڑی ہے۔ چھوٹی تصویر منتخب کریں۔",err_read:"تصویر پڑھی نہیں جا سکی۔ کوئی اور تصویر آزمائیں۔",
+res_wait_t:"ابھی کوئی پتا نہیں جانچا گیا",
+res_wait_s:"نتیجہ، رنگوں کی پیمائش اور تجویز کردہ اقدام یہاں ظاہر ہوگا۔",
+res_busy:"پتے کے رنگ پڑھے جا رہے ہیں…",
+res_conf:"اعتماد",conf_high:"زیادہ",conf_med:"درمیانہ",conf_low:"کم",
+crop_ok:"پتا شناخت ہوا",crop_bad:"پتا شناخت نہیں ہوا",
+m_t:"رنگوں کی پیمائش",m_green:"صحت مند سبز",m_yellow:"پیلاہٹ",m_brown:"بھورے دھبے",m_dark:"گہرے، پانی بھرے",
+res_symp:"تصویر میں کیا نظر آتا ہے",res_act:"کیا کریں",
+copy:"رپورٹ کاپی کریں",copied:"کلپ بورڈ میں کاپی ہو گئی۔",copy_fail:"یہاں کاپی بلاک ہے۔ نیچے کا متن منتخب کر کے کاپی کریں۔",
+res_disc:"یہ صرف رنگ پر مبنی ابتدائی اندازہ ہے۔ چھڑکاؤ سے پہلے زرعی توسیعی افسر سے تصدیق کریں۔",
+j_t:"جج موڈ: جانچ کیسے فیصلہ کرتی ہے",
+j_rules:[
+"تصویر کو 480 × 360 پر لایا جاتا ہے اور ہر دوسرا پکسل پڑھا جاتا ہے۔",
+"ہر پکسل کو رنگت، سیرابی اور چمک میں بدل کر سبز، پیلا، بھورا، گہرا یا پس منظر شمار کیا جاتا ہے۔",
+"اگر پس منظر کے علاوہ پکسلز میں 25 فیصد سے کم سبز ہو تو تصویر پتا نہ ہونے کی وجہ سے مسترد ہوتی ہے۔",
+"پتے کے 4 فیصد سے زیادہ حصے پر بھورے یا گہرے دھبے بلائٹ کی علامت ہیں: زیادہ تر گہرے ہوں تو لیٹ بلائٹ، ورنہ ارلی بلائٹ۔ پیلا حصہ 12 فیصد سے زیادہ اور دھبے کم ہوں تو پیلاہٹ۔",
+"حدود: یہ پودے کی قسم نہیں پہچانتا، روشنی رنگ بدل دیتی ہے اور ملتی جلتی بیماریاں ایک جیسی لگتی ہیں۔ PlantVillage پر تربیت یافتہ ماڈل اگلا قدم ہے۔"],
+j_px:"پڑھے گئے پکسل: {n}۔ پتے کے رنگ والے: {l}۔ دھبوں کا حصہ: {s}%۔",
+j_none:"پکسل کی گنتی دیکھنے کے لیے کوئی پتا چلائیں۔",
+risk_t:"بلائٹ کے موسمی خطرے",
+risk_s:"آج کا درجہ حرارت اور نمی درج کریں۔ یہ اصولی رہنمائی بتاتی ہے کہ موسم کس بلائٹ کے لیے سازگار ہے۔ یہ پیش گوئی نہیں۔",
+temp:"ہوا کا درجہ حرارت",hum:"نمی کا تناسب",
+late_b:"لیٹ بلائٹ",early_b:"ارلی بلائٹ",
+r_low:"کم",r_mod:"درمیانہ",r_high:"زیادہ",
+r_late_high:"ٹھنڈا اور بہت مرطوب موسم۔ فائٹوفتھورا انفیسٹینز 10 تا 24 ڈگری اور 90 فیصد یا زیادہ نمی میں سب سے تیز پھیلتا ہے۔",
+r_late_mod:"حالات قریب ہیں۔ بارش یا بھاری شبنم کے بعد پتوں پر نظر رکھیں۔",
+r_late_low:"لیٹ بلائٹ کے تیزی سے پھیلنے کے لیے موسم بہت گرم یا خشک ہے۔",
+r_early_high:"گرم موسم اور نم پتے۔ آلٹرنیریا سولانی کو 24 تا 29 ڈگری اور 70 فیصد سے زیادہ نمی پسند ہے۔",
+r_early_mod:"موزوں حد کے قریب۔ ارلی بلائٹ پہلے پرانے، کمزور پتوں پر بنتی ہے۔",
+r_early_low:"ارلی بلائٹ کے تیزی سے پھیلنے کی حد سے باہر۔",
+lib_t:"بیماریوں کی فہرست",lib_s:"ٹماٹر کے پتوں کے عام مسائل کی علامات اور ابتدائی اقدامات۔",
+search:"نام یا وجہ سے تلاش کریں",
+f_all:"سب",f_fungal:"پھپھوندی",f_bacterial:"بیکٹیریا",f_viral:"وائرس",f_pest:"کیڑے",f_healthy:"صحت مند",f_rejected:"پتا نہیں",
+lib_none:"کوئی نتیجہ نہیں۔ کوئی اور نام آزمائیں۔",lib_count:"{n} اندراجات",
+l_sym:"علامات",l_care:"ابتدائی اقدامات",
+sev_severe:"شدید",sev_moderate:"درمیانہ",
+how_t:"یہ کیسے کام کرتا ہے",how_s:"تصویر سے رپورٹ تک پانچ مراحل۔",step:"مرحلہ",
+steps:[
+["اپ لوڈ","ایک ٹماٹر کے پتے کی تصویر شامل کریں یا نمونہ چلائیں۔"],
+["فصل کی جانچ","دیکھتا ہے کہ تصویر میں کافی پتے جیسا سبز ہے۔ پھل، مٹی اور آسمان مسترد ہوتے ہیں۔"],
+["رنگوں کی نمونہ گیری","پکسلز کو سبز، پیلے، بھورے اور گہرے رنگوں میں تقسیم کیا جاتا ہے۔"],
+["درجہ بندی","اصول ان تناسب کا موازنہ کر کے قریب ترین کیفیت چنتے ہیں۔"],
+["رپورٹ","اقدام پڑھیں اور رپورٹ کاپی کر کے شیئر کریں۔"]],
+guide_t:"اسٹیم نمائشی گائیڈ",guide_s:"جب جج اسٹال پر آئیں تو فوری حوالہ۔",
+g1h:"مسئلے کا بیان",
+g1p:"ٹماٹر کی فصل پتوں کی بیماریوں، جیسے ارلی بلائٹ اور لیٹ بلائٹ، سے پیداوار کھو دیتی ہے۔ آنکھ سے جانچنا سست ہے اور تربیت مانگتا ہے۔",
+g2h:"ہمارا حل",
+g2p:"اگرو وژن پتے کی تصویر براؤزر کے اندر ہی جانچتا ہے۔ سرور نہیں ہے، اس لیے صفحہ کھلنے کے بعد جانچ انٹرنیٹ کے بغیر بھی چلتی ہے۔",
+g3h:"ڈیٹا سیٹ اور طریقہ",
+g3p:"حوالہ ڈیٹا سیٹ PlantVillage ہے جس میں پتوں کی 54,303 تصاویر ہیں۔ یہ ڈیمو کینوس کے پکسلز سے رنگوں کا تناسب پڑھ کر اصول لاگو کرتا ہے۔ اس ڈیٹا سیٹ پر نیورل نیٹ ورک کی تربیت اگلا منصوبہ ہے۔",
+g4h:"اسٹیم کے مضامین",
+steam:[
+["S","سائنس","پودوں کی بیماریوں کا علم، بیضوں (اسپورز) کا پھیلاؤ اور وہ موسم جو ہر بیماری کے لیے سازگار ہے۔"],
+["T","ٹیکنالوجی","HTML5 کینوس پر پکسل کی پیمائش اور جاوا اسکرپٹ میں اصول پر مبنی درجہ بندی۔"],
+["E","انجینئرنگ","ایک ہی فائل کا صفحہ جو تیزی سے کھلتا ہے اور فون پر چلتا ہے۔"],
+["A","آرٹس","فیلڈ گائیڈ جیسا انداز: نمونے کی پلیٹ، پڑھنے میں آسان تحریر اور اردو کے لیے دائیں سے بائیں ترتیب۔"],
+["M","ریاضی","RGB سے HSV میں تبدیلی، فیصدی تناسب اور حدیں (تھریشولڈ)۔"]],
+foot_t:"اگرو وژن · کلاس 11 اسٹیم نمائش، پاکستان",
+foot_p:"پاکستان میں زراعت لاکھوں لوگوں کا ذریعۂ معاش ہے۔ کلاس 11 کے طلبہ کی حیثیت سے ہم نے یہ دکھانے کے لیے بنایا کہ فون کیمرا اور سادہ کوڈ کاشتکاروں کو بیماری جلد پہچاننے میں کیسے مدد دے سکتے ہیں۔",
+foot_d:"یہ سیکھنے کے لیے ایک نمائشی ڈیمو ہے، تشخیص نہیں۔ کسی بھی علاج کی تصدیق مقامی زرعی توسیعی افسر سے کریں۔",
+pitch_b:"پریزنٹیشن نوٹس",pitch_t:"پریزنٹیشن نوٹس",pitch_s:"مختصر تعارف اور وہ سوالات جو جج پوچھ سکتے ہیں۔",
+pitch_o_h:"تعارف",
+pitch_o:"ہم نے اگرو وژن ٹماٹر اگانے والوں کی مدد کے لیے بنایا ہے تاکہ پتوں کی بیماری جلد پکڑی جا سکے۔ آپ ایک پتے کی تصویر لیتے ہیں، صفحہ اس کے رنگ ناپتا ہے، پتے سے مختلف تصاویر مسترد کرتا ہے اور پہلا قدم تجویز کرتا ہے۔ سب کچھ آپ کے براؤزر میں چلتا ہے۔",
+pitch_q_h:"ممکنہ سوالات",
+qa:[
+["کیا یہ تربیت یافتہ نیورل نیٹ ورک ہے؟","نہیں۔ یہ ڈیمو کینوس کے پکسلز سے رنگوں کا تناسب پڑھ کر اصول لاگو کرتا ہے۔ PlantVillage پر ماڈل کی تربیت اگلا قدم ہے۔"],
+["کیا تصاویر میرے فون سے باہر جاتی ہیں؟","نہیں۔ تجزیہ براؤزر میں ہوتا ہے اور کچھ اپ لوڈ نہیں ہوتا۔"],
+["خراب تصویر کو یہ کیسے مسترد کرتا ہے؟","اگر پس منظر کے علاوہ پکسلز میں چوتھائی سے کم پتے جیسا سبز ہو تو یہ بتاتا ہے کہ پتا نہیں ملا۔ یہ ٹماٹر کے پتوں کو دوسرے سبز پتوں سے الگ نہیں پہچان سکتا۔"],
+["اسے مزید درست کیسے بنایا جائے؟","لیبارٹری کے ساتھ کھیت کی تصاویر پر تربیت، پتے کی شکل کی جانچ اور اصل کھیت کے پتوں پر آزمائش۔"]],
+close:"بند کریں"
+}};
+
+var COND={
+early:{tone:'bad',
+ n:{en:"Signs of early blight",ur:"ارلی بلائٹ کی علامات"},
+ s:{en:"Brown spots found on the leaf. They are mostly brown rather than dark and watery, which fits the ringed spots of early blight.",ur:"پتے پر بھورے دھبے ملے۔ یہ زیادہ تر بھورے ہیں، گہرے اور پانی بھرے نہیں، جو ارلی بلائٹ کے چھلے دار دھبوں سے ملتا ہے۔"},
+ a:{en:"Remove the lowest infected leaves, water at the base, and ask your extension officer about a copper-based fungicide.",ur:"سب سے نچلے متاثرہ پتے ہٹائیں، جڑ میں پانی دیں اور زرعی افسر سے تانبے والی پھپھوند کش دوا کے بارے میں پوچھیں۔"}},
+late:{tone:'bad',
+ n:{en:"Signs of late blight",ur:"لیٹ بلائٹ کی علامات"},
+ s:{en:"Large dark patches found. Dark, water-soaked areas are the main sign of late blight.",ur:"بڑے گہرے دھبے ملے۔ گہرے، پانی بھرے حصے لیٹ بلائٹ کی بنیادی علامت ہیں۔"},
+ a:{en:"Act the same day. Remove and bag infected leaves or plants, keep foliage dry, and ask about a protectant fungicide before the next wet spell.",ur:"اسی دن کارروائی کریں۔ متاثرہ پتے یا پودے ہٹا کر تھیلے میں بند کریں، پتے خشک رکھیں اور اگلی بارش سے پہلے حفاظتی پھپھوند کش دوا کے بارے میں پوچھیں۔"}},
+healthy:{tone:'ok',
+ n:{en:"Leaf looks healthy",ur:"پتا صحت مند نظر آتا ہے"},
+ s:{en:"Mostly even green with very few spots or yellow areas.",ur:"زیادہ تر یکساں سبز، دھبے یا پیلے حصے بہت کم۔"},
+ a:{en:"No treatment needed. Scout weekly and water at the base of the plant.",ur:"علاج کی ضرورت نہیں۔ ہفتہ وار معائنہ کریں اور پودے کی جڑ میں پانی دیں۔"}},
+curl:{tone:'warn',
+ n:{en:"Yellowing detected",ur:"پیلاہٹ پائی گئی"},
+ s:{en:"A large share of the leaf is yellow with few spots. This can come from leaf curl virus, a nutrient shortage or watering stress.",ur:"پتے کا بڑا حصہ پیلا ہے اور دھبے کم ہیں۔ یہ لیف کرل وائرس، غذائی کمی یا پانی کے دباؤ سے ہو سکتا ہے۔"},
+ a:{en:"Check the underside for whiteflies, look for upward curling, and test soil nutrients. Remove plants that show curl with whiteflies.",ur:"نچلی سطح پر سفید مکھی دیکھیں، اوپر کی طرف مڑاؤ پر نظر رکھیں اور مٹی کے غذائی اجزا جانچیں۔ جن پودوں میں مڑاؤ اور سفید مکھی ہو انہیں نکال دیں۔"}},
+invalid:{tone:'neutral',
+ n:{en:"Not a leaf photo",ur:"یہ پتے کی تصویر نہیں"},
+ s:{en:"Too little leaf green was found. Fruit, soil, sky or a cluttered background can cause this.",ur:"پتے جیسا سبز بہت کم ملا۔ پھل، مٹی، آسمان یا بھرا ہوا پس منظر اس کی وجہ ہو سکتے ہیں۔"},
+ a:{en:"Take a new photo of one tomato leaf, filling the frame, in daylight.",ur:"ایک ٹماٹر کے پتے کی نئی تصویر لیں جو فریم بھر دے، دن کی روشنی میں۔"}}
+};
+
+var DIS=[
+{cat:'fungal',sev:'moderate',cause:'Alternaria solani',n:{en:"Early blight",ur:"ارلی بلائٹ"},
+ s:{en:"Dark brown spots with ring patterns, starting on the oldest leaves. A yellow halo often forms around each spot.",ur:"گہرے بھورے دھبے جن میں چھلے بنتے ہیں، سب سے پرانے پتوں سے شروع۔ ہر دھبے کے گرد اکثر پیلا ہالہ بنتا ہے۔"},
+ c:{en:"Remove the lowest infected leaves, water at the base, rotate crops, and ask an extension officer about a copper-based spray.",ur:"سب سے نچلے متاثرہ پتے ہٹائیں، جڑ میں پانی دیں، فصل کی باری بدلیں اور زرعی افسر سے تانبے والے سپرے کے بارے میں پوچھیں۔"}},
+{cat:'fungal',sev:'severe',cause:'Phytophthora infestans',n:{en:"Late blight",ur:"لیٹ بلائٹ"},
+ s:{en:"Large, greasy-looking dark patches that spread within days in cool, wet weather. White fuzz may show underneath.",ur:"بڑے، چکنے نظر آنے والے گہرے دھبے جو ٹھنڈے، گیلے موسم میں چند دنوں میں پھیل جاتے ہیں۔ نیچے سفید روئیں آ سکتے ہیں۔"},
+ c:{en:"Act the same day. Remove and bag infected plants, keep leaves dry, and ask about a protectant fungicide before the next wet spell.",ur:"اسی دن کارروائی کریں۔ متاثرہ پودے ہٹا کر تھیلے میں بند کریں، پتے خشک رکھیں اور اگلی بارش سے پہلے حفاظتی پھپھوند کش دوا کے بارے میں پوچھیں۔"}},
+{cat:'fungal',sev:'moderate',cause:'Passalora fulva',n:{en:"Leaf mold",ur:"پتوں کی پھپھوندی (لیف مولڈ)"},
+ s:{en:"Pale yellow patches on the upper side with olive-green velvety mold underneath. Common in humid greenhouses.",ur:"اوپری سطح پر ہلکے پیلے دھبے اور نیچے زیتونی سبز مخملی پھپھوندی۔ مرطوب گرین ہاؤس میں عام۔"},
+ c:{en:"Open the canopy, ventilate, avoid wetting leaves and space plants wider.",ur:"پودوں کو کھلا رکھیں، ہوا کا گزر بڑھائیں، پتے گیلے کرنے سے بچیں اور پودوں کے درمیان فاصلہ بڑھائیں۔"}},
+{cat:'fungal',sev:'moderate',cause:'Septoria lycopersici',n:{en:"Septoria leaf spot",ur:"سیپٹوریا لیف سپاٹ"},
+ s:{en:"Many small round spots with dark edges and grey centres, mostly on lower leaves.",ur:"بہت سے چھوٹے گول دھبے جن کے کنارے گہرے اور درمیان خاکستری ہوتا ہے، زیادہ تر نچلے پتوں پر۔"},
+ c:{en:"Remove spotted lower leaves, mulch the soil to stop splash, and rotate crops.",ur:"دھبے والے نچلے پتے ہٹائیں، مٹی پر ملچ ڈالیں تاکہ چھینٹے نہ اڑیں اور فصل کی باری بدلیں۔"}},
+{cat:'pest',sev:'moderate',cause:'Tetranychus urticae',n:{en:"Spider mites",ur:"مکڑی نما کیڑے (اسپائیڈر مائٹس)"},
+ s:{en:"Fine yellow stippling on the leaf with thin webbing underneath. Worst in hot, dry, dusty weather.",ur:"پتے پر باریک پیلے نقطے اور نیچے باریک جالا۔ گرم، خشک اور گرد آلود موسم میں زیادہ۔"},
+ c:{en:"Wash the underside of leaves with water, use neem oil or insecticidal soap, and reduce dust and water stress.",ur:"پتوں کے نچلے حصے کو پانی سے دھوئیں، نیم کا تیل یا کیڑے مار صابن استعمال کریں اور گرد اور پانی کی کمی کم کریں۔"}},
+{cat:'viral',sev:'severe',cause:'Begomovirus (whitefly-borne)',n:{en:"Yellow leaf curl virus",ur:"ییلو لیف کرل وائرس"},
+ s:{en:"Small leaves that curl upward and turn yellow at the edges, with stunted plants. Spread by whiteflies.",ur:"چھوٹے پتے جو اوپر کی طرف مڑتے ہیں اور کناروں سے پیلے ہو جاتے ہیں، پودا چھوٹا رہ جاتا ہے۔ سفید مکھی سے پھیلتا ہے۔"},
+ c:{en:"Control whiteflies, remove infected plants early, and plant resistant varieties where available.",ur:"سفید مکھی پر قابو پائیں، متاثرہ پودے جلد نکالیں اور جہاں دستیاب ہوں مزاحمتی اقسام لگائیں۔"}},
+{cat:'bacterial',sev:'moderate',cause:'Xanthomonas species',n:{en:"Bacterial spot",ur:"بیکٹیریائی دھبے"},
+ s:{en:"Small dark spots with yellow halos that can drop out, leaving ragged holes. Spreads in splashing rain.",ur:"چھوٹے گہرے دھبے جن کے گرد پیلا ہالہ ہوتا ہے؛ دھبے گر کر پتے میں سوراخ چھوڑ دیتے ہیں۔ بارش کے چھینٹوں سے پھیلتا ہے۔"},
+ c:{en:"Use clean seed, avoid working among wet plants, and rotate crops. Copper sprays only slow it.",ur:"صاف بیج استعمال کریں، گیلے پودوں میں کام کرنے سے بچیں اور فصل کی باری بدلیں۔ تانبے کے سپرے صرف رفتار کم کرتے ہیں۔"}},
+{cat:'healthy',sev:'none',cause:'',n:{en:"Healthy leaf",ur:"صحت مند پتا"},
+ s:{en:"Even green colour, clear veins and no spots, curling or yellow patches.",ur:"یکساں سبز رنگ، صاف رگیں اور کوئی دھبہ، مڑاؤ یا پیلاہٹ نہیں۔"},
+ c:{en:"No treatment needed. Scout weekly and water at the base of the plant.",ur:"علاج کی ضرورت نہیں۔ ہفتہ وار معائنہ کریں اور پودے کی جڑ میں پانی دیں۔"}},
+{cat:'rejected',sev:'none',cause:'',n:{en:"Not a tomato leaf",ur:"ٹماٹر کا پتا نہیں"},
+ s:{en:"Fruit, soil, sky or scenes with too little leaf green. Leaves of other plants can pass, because the check reads colour, not leaf shape.",ur:"پھل، مٹی، آسمان یا ایسے مناظر جن میں پتے جیسا سبز کم ہو۔ دوسرے پودوں کے پتے گزر سکتے ہیں کیونکہ جانچ شکل نہیں، رنگ دیکھتی ہے۔"},
+ c:{en:"Photograph one tomato leaf filling the frame, in daylight, on a plain background.",ur:"ایک ٹماٹر کے پتے کی تصویر لیں جو فریم بھر دے، دن کی روشنی میں اور سادہ پس منظر پر۔"}}
+];
+
+function t(k){return T[lang][k]}
+
+/* ---------- image analysis ---------- */
+function analyse(data){
+  var d=data.data,fg=0,g=0,y=0,b=0,dk=0,i,r,gg,bl,mx,mn,v,s,h,dl;
+  for(i=0;i<d.length;i+=8){
+    r=d[i];gg=d[i+1];bl=d[i+2];
+    mx=Math.max(r,gg,bl);mn=Math.min(r,gg,bl);
+    v=mx/255;s=mx?(mx-mn)/mx:0;
+    if(s<0.12||v>0.93||v<0.08)continue;
+    fg++;
+    dl=mx-mn;
+    if(dl===0)h=0;
+    else if(mx===r)h=60*(((gg-bl)/dl+6)%6);
+    else if(mx===gg)h=60*((bl-r)/dl+2);
+    else h=60*((r-gg)/dl+4);
+    var greenHue=(h>=70&&h<=170);
+    if(v<0.22){ if(greenHue&&s>=0.35){g++}else{dk++} continue; }
+    if(greenHue&&s>=0.2){g++}
+    else if(h>=40&&h<70&&s>=0.35&&v>=0.5){y++}
+    else if(h>=8&&h<45&&s>=0.25&&v<0.62){b++}
+  }
+  var leaf=g+y+b+dk;
+  var valid=fg>=1500&&(g/fg)>=0.25&&(leaf/fg)>=0.6;
+  var base=valid?leaf:Math.max(fg,1);
+  var pct={g:100*g/base,y:100*y/base,b:100*b/base,dk:100*dk/base};
+  var key,conf,lesion=0,darkShare=0,yel=0;
+  if(valid){
+    lesion=(b+dk)/leaf;darkShare=(b+dk)?dk/(b+dk):0;yel=y/leaf;
+    if(lesion>=0.04){
+      key=darkShare>=0.5?'late':'early';
+      if(darkShare>0.4&&darkShare<0.6)conf='low';
+      else conf=lesion>=0.08?'high':'med';
+    }else if(yel>=0.12){key='curl';conf=yel>=0.2?'high':'med'}
+    else{key='healthy';conf=(lesion<0.02&&yel<0.05)?'high':'med'}
+  }else{
+    key='invalid';conf=(g/Math.max(fg,1))<0.1?'high':'med';
+  }
+  return {key:key,conf:conf,pct:pct,fg:fg,leaf:leaf,spot:valid?100*lesion:0};
+}
+
+/* ---------- sample leaves drawn on canvas ---------- */
+function rng(seed){return function(){seed=(seed*16807)%2147483647;return (seed-1)/2147483646}}
+function drawSample(kind,c){
+  var rand=rng(kind==='early'?7:kind==='late'?11:kind==='curl'?5:3);
+  c.fillStyle='#E7EAE6';c.fillRect(0,0,W,H);
+  if(kind==='apple'){
+    c.fillStyle='#D9DDD8';c.fillRect(0,300,W,60);
+    var gr=c.createRadialGradient(205,150,15,240,190,115);
+    gr.addColorStop(0,'#E0554A');gr.addColorStop(1,'#8F1D18');
+    c.fillStyle=gr;c.beginPath();c.arc(240,190,105,0,Math.PI*2);c.fill();
+    c.fillStyle='#5A3A1E';c.fillRect(236,62,8,38);
+    c.fillStyle='#4F8F3E';c.beginPath();c.ellipse(268,76,26,11,-0.4,0,Math.PI*2);c.fill();
+    return;
+  }
+  var top=kind==='curl'?'#C4CB48':'#4C8F3E',bot=kind==='curl'?'#5F9234':'#2F6D33';
+  c.save();c.translate(240,180);c.rotate(-0.15);
+  var g=c.createLinearGradient(0,-150,0,150);g.addColorStop(0,top);g.addColorStop(1,bot);
+  c.fillStyle=g;c.beginPath();c.moveTo(0,160);c.bezierCurveTo(-150,100,-150,-60,0,-160);c.bezierCurveTo(150,-60,150,100,0,160);c.fill();
+  c.strokeStyle='rgba(205,232,170,.55)';c.lineWidth=3;c.beginPath();c.moveTo(0,160);c.lineTo(0,-150);c.stroke();
+  c.lineWidth=1.6;
+  for(var k=0;k<6;k++){var yy=110-k*45;
+    c.beginPath();c.moveTo(0,yy);c.quadraticCurveTo(-45,yy-18,-95,yy-60);c.stroke();
+    c.beginPath();c.moveTo(0,yy);c.quadraticCurveTo(45,yy-18,95,yy-60);c.stroke();}
+  function inside(){var x,y;do{x=(rand()*2-1)*90;y=(rand()*2-1)*115}while((x*x)/(95*95)+(y*y)/(125*125)>1);return [x,y]}
+  var n,p,r;
+  if(kind==='early'){
+    for(n=0;n<9;n++){p=inside();r=8+rand()*8;
+      c.fillStyle='rgba(212,192,60,.8)';c.beginPath();c.arc(p[0],p[1],r+6,0,Math.PI*2);c.fill();
+      c.fillStyle='#6F4420';c.beginPath();c.arc(p[0],p[1],r,0,Math.PI*2);c.fill();
+      c.strokeStyle='#4E2E14';c.lineWidth=1.5;
+      c.beginPath();c.arc(p[0],p[1],r*0.65,0,Math.PI*2);c.stroke();
+      c.beginPath();c.arc(p[0],p[1],r*0.33,0,Math.PI*2);c.stroke();}
+  }
+  if(kind==='late'){
+    var blobs=[[-35,-45,48,30,0.5],[30,25,52,34,-0.3],[-30,75,40,24,0.2]];
+    blobs.forEach(function(q){
+      c.fillStyle='#55603A';c.beginPath();c.ellipse(q[0],q[1],q[2]+10,q[3]+9,q[4],0,Math.PI*2);c.fill();
+      c.fillStyle='#2C2A18';c.beginPath();c.ellipse(q[0],q[1],q[2],q[3],q[4],0,Math.PI*2);c.fill();});
+  }
+  c.restore();
+}
+
+/* ---------- scanner state ---------- */
+var view=$('view'),vctx=view.getContext('2d',{willReadFrequently:true});
+var stage=$('stage'),drop=$('drop'),preview=$('preview'),scanfx=$('scanfx'),msg=$('msg'),res=$('res'),fileIn=$('file');
+var last=null,busy=false,token=0,activeSample=null;
+var cameraStream=null,cameraView=$('cameraView'),cameraVideo=$('cameraVideo');
+var cameraStart=$('cameraStart'),cameraCapture=$('cameraCapture'),cameraStop=$('cameraStop'),cameraNote=$('cameraNote');
+
+function stopCamera(){
+  if(cameraStream){cameraStream.getTracks().forEach(function(track){track.stop()});cameraStream=null}
+  cameraVideo.srcObject=null;cameraView.hidden=true;cameraCapture.hidden=true;cameraStop.hidden=true;cameraStart.hidden=false;
+}
+function cameraMessage(kind){
+  var messages={
+    en:{hint:'Allow camera access, point at one tomato leaf, then capture it to run the on-page screening.',secure:'Camera access needs HTTPS or localhost. Open this page through a secure site or run it on localhost.',denied:'Camera access was blocked. Allow camera permission in your browser settings and try again.',missing:'No usable camera was found on this device.',failed:'The camera could not start. Close other apps using the camera and try again.',captured:'Live photo captured. Reading leaf colours…'},
+    ur:{hint:'کیمرے کی اجازت دیں، ایک ٹماٹر کے پتے پر فوکس کریں، پھر تصویر لے کر جانچ چلائیں۔',secure:'کیمرہ چلانے کے لیے HTTPS یا localhost ضروری ہے۔ ویب سائٹ کو محفوظ لنک سے کھولیں۔',denied:'کیمرے کی اجازت نہیں ملی۔ براؤزر سیٹنگز میں اجازت دیں اور دوبارہ کوشش کریں۔',missing:'اس ڈیوائس پر قابلِ استعمال کیمرہ نہیں ملا۔',failed:'کیمرہ شروع نہیں ہو سکا۔ دوسری ایپس بند کرکے دوبارہ کوشش کریں۔',captured:'لائیو تصویر لے لی گئی ہے، پتے کے رنگ پڑھے جا رہے ہیں۔'}
+  };return messages[lang][kind]||messages.en[kind];
+}
+function startCamera(){
+  msg.textContent='';
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){msg.textContent=cameraMessage('secure');return}
+  cameraStart.disabled=true;cameraStart.textContent=lang==='ur'?'کیمرہ شروع ہو رہا ہے…':'Starting camera…';
+  navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}},audio:false})
+    .then(function(stream){cameraStream=stream;cameraVideo.srcObject=stream;cameraView.hidden=false;preview.hidden=true;drop.hidden=true;cameraCapture.hidden=false;cameraStop.hidden=false;cameraStart.hidden=true;cameraNote.textContent=cameraMessage('hint');return cameraVideo.play()})
+    .catch(function(err){stopCamera();cameraStart.disabled=false;cameraStart.textContent=lang==='ur'?'◎ لائیو کیمرہ استعمال کریں':'◎ Use live camera';
+      if(err&&err.name==='NotAllowedError'||err&&err.name==='PermissionDeniedError')msg.textContent=cameraMessage('denied');
+      else if(err&&err.name==='NotFoundError')msg.textContent=cameraMessage('missing');
+      else msg.textContent=cameraMessage('failed');});
+}
+function captureCamera(){
+  if(!cameraStream||!cameraVideo.videoWidth){msg.textContent=cameraMessage('failed');return}
+  try{vctx.drawImage(cameraVideo,0,0,W,H);stopCamera();cameraStart.disabled=false;cameraStart.textContent=lang==='ur'?'◎ دوبارہ کیمرہ کھولیں':'◎ Use live camera';activeSample=null;markSamples();cameraNote.textContent=cameraMessage('captured');run()}
+  catch(e){msg.textContent=t('err_read')}
+}
+cameraStart.addEventListener('click',startCamera);
+cameraCapture.addEventListener('click',captureCamera);
+cameraStop.addEventListener('click',function(){stopCamera();cameraStart.disabled=false;cameraStart.textContent=lang==='ur'?'◎ لائیو کیمرہ استعمال کریں':'◎ Use live camera';drop.hidden=false;cameraNote.textContent=cameraMessage('hint')});
+window.addEventListener('pagehide',stopCamera);
+
+function drawCover(im){
+  vctx.fillStyle='#E7EAE6';vctx.fillRect(0,0,W,H);
+  var sc=Math.max(W/im.width,H/im.height),w=im.width*sc,h=im.height*sc;
+  vctx.drawImage(im,(W-w)/2,(H-h)/2,w,h);
+}
+function run(){
+  var my=++token;
+  drop.hidden=true;preview.hidden=false;scanfx.hidden=false;busy=true;last=null;renderResult();
+  setTimeout(function(){
+    if(my!==token)return;
+    var out;
+    try{out=analyse(vctx.getImageData(0,0,W,H))}catch(e){busy=false;scanfx.hidden=true;msg.textContent=t('err_read');return}
+    last=out;busy=false;scanfx.hidden=true;renderResult();renderJudge();
+  },reduce?150:1000);
+}
+function resetScan(){
+  stopCamera();cameraStart.disabled=false;cameraStart.textContent=lang==='ur'?'◎ لائیو کیمرہ استعمال کریں':'◎ Use live camera';cameraNote.textContent=cameraMessage('hint');
+  token++;busy=false;last=null;activeSample=null;fileIn.value='';
+  preview.hidden=true;scanfx.hidden=true;drop.hidden=false;msg.textContent='';
+  markSamples();renderResult();renderJudge();
+}
+function loadFile(f){
+  msg.textContent='';if(!f)return;stopCamera();cameraStart.disabled=false;cameraStart.textContent=lang==='ur'?'◎ لائیو کیمرہ استعمال کریں':'◎ Use live camera';cameraNote.textContent=cameraMessage('hint');
+  if(!/^image\/(jpeg|png)$/.test(f.type)){msg.textContent=t('err_type');return}
+  if(f.size>15*1024*1024){msg.textContent=t('err_size');return}
+  var rd=new FileReader();
+  rd.onload=function(){var im=new Image();
+    im.onload=function(){activeSample=null;markSamples();drawCover(im);run()};
+    im.onerror=function(){msg.textContent=t('err_read')};
+    im.src=rd.result};
+  rd.onerror=function(){msg.textContent=t('err_read')};
+  rd.readAsDataURL(f);
+}
+function markSamples(){
+  document.querySelectorAll('[data-sample]').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.sample===activeSample?'true':'false')});
+}
+fileIn.addEventListener('change',function(){loadFile(fileIn.files[0])});
+['dragenter','dragover'].forEach(function(ev){stage.addEventListener(ev,function(e){e.preventDefault();stage.classList.add('over')})});
+['dragleave','drop'].forEach(function(ev){stage.addEventListener(ev,function(e){e.preventDefault();stage.classList.remove('over')})});
+stage.addEventListener('drop',function(e){var f=e.dataTransfer&&e.dataTransfer.files[0];loadFile(f)});
+$('clear').addEventListener('click',resetScan);
+document.querySelectorAll('[data-sample]').forEach(function(b){
+  b.addEventListener('click',function(){
+    stopCamera();cameraStart.disabled=false;cameraStart.textContent=lang==='ur'?'◎ لائیو کیمرہ استعمال کریں':'◎ Use live camera';cameraNote.textContent=cameraMessage('hint');
+    msg.textContent='';activeSample=b.dataset.sample;markSamples();
+    drawSample(activeSample,vctx);run();
+  });
+});
+
+/* ---------- result rendering ---------- */
+function reportText(){
+  var c=COND[last.key],p=last.pct;
+  return ['AgroVision · '+t('scan_t'),
+    c.n[lang],
+    t('res_conf')+': '+t('conf_'+last.conf),
+    t('m_green')+' '+p.g.toFixed(0)+'% · '+t('m_yellow')+' '+p.y.toFixed(0)+'% · '+t('m_brown')+' '+p.b.toFixed(0)+'% · '+t('m_dark')+' '+p.dk.toFixed(0)+'%',
+    '',t('res_symp')+': '+c.s[lang],
+    t('res_act')+': '+c.a[lang],
+    '',t('res_disc')].join('\n');
+}
+function renderResult(){
+  if(busy){res.innerHTML='<div class="empty"><h3>'+t('res_busy')+'</h3></div>';return}
+  if(!last){res.innerHTML='<div class="empty"><h3>'+t('res_wait_t')+'</h3><p>'+t('res_wait_s')+'</p></div>';return}
+  var c=COND[last.key],p=last.pct;
+  var rows=[['m_green',p.g,'var(--leaf)'],['m_yellow',p.y,'var(--halo)'],['m_brown',p.b,'var(--lesion)'],['m_dark',p.dk,'var(--ink)']].map(function(r){
+    return '<div class="bar"><span>'+t(r[0])+'</span><span class="track"><span class="fill" style="--w:'+Math.min(100,r[1]).toFixed(1)+'%;--c:'+r[2]+'"></span></span><b>'+r[1].toFixed(0)+'%</b></div>';
+  }).join('');
+  res.innerHTML=
+   '<div class="res-head"><span class="pill '+(last.key==='invalid'?'neutral':'')+'">'+(last.key==='invalid'?t('crop_bad'):t('crop_ok'))+'</span>'+
+   '<h3>'+c.n[lang]+'</h3><p class="conf">'+t('res_conf')+': <strong>'+t('conf_'+last.conf)+'</strong></p></div>'+
+   '<div class="bars"><h4>'+t('m_t')+'</h4>'+rows+'</div>'+
+   '<div class="res-sec"><h4>'+t('res_symp')+'</h4><p>'+c.s[lang]+'</p></div>'+
+   '<div class="res-sec"><h4>'+t('res_act')+'</h4><p>'+c.a[lang]+'</p></div>'+
+   '<div class="res-actions"><button class="btn btn-primary btn-sm" id="copy" type="button">'+t('copy')+'</button><span id="copymsg" role="status"></span></div>'+
+   '<textarea class="report" id="report" readonly hidden aria-label="Report text"></textarea>'+
+   '<p class="fine">'+t('res_disc')+'</p>';
+  var pill=res.querySelector('.pill');
+  if(last.key!=='invalid'){pill.className='pill '+(c.tone==='ok'?'':c.tone)}
+  $('copy').addEventListener('click',function(){
+    var txt=reportText(),cm=$('copymsg'),ta=$('report');
+    function fallback(){ta.value=txt;ta.hidden=false;ta.focus();ta.select();cm.textContent=t('copy_fail')}
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(function(){ta.hidden=true;cm.textContent=t('copied')},fallback);
+    }else fallback();
+  });
+}
+function renderJudge(){
+  var ol=$('jrules');ol.innerHTML=t('j_rules').map(function(x){return '<li>'+x+'</li>'}).join('');
+  $('jline').textContent=last?t('j_px').replace('{n}',last.fg).replace('{l}',last.leaf).replace('{s}',last.spot.toFixed(1)):t('j_none');
+}
+
+/* ---------- risk ---------- */
+function rate(kind,tc,h){
+  if(kind==='late'){if(tc>=10&&tc<=24&&h>=90)return 'high';if(tc>=8&&tc<=27&&h>=80)return 'mod';return 'low'}
+  if(tc>=24&&tc<=29&&h>=70)return 'high';if(tc>=20&&tc<=32&&h>=60)return 'mod';return 'low';
+}
+function renderRisk(){
+  var tc=+$('temp').value,h=+$('hum').value;
+  $('temp-o').textContent=tc+' °C';$('hum-o').textContent=h+'%';
+  $('riskrows').innerHTML=['late','early'].map(function(k){
+    var r=rate(k,tc,h),tone=r==='high'?'bad':r==='mod'?'warn':'';
+    return '<div class="rrow"><div class="top"><h3>'+t(k+'_b')+'</h3><span class="pill '+tone+'">'+t('r_'+r)+'</span></div><p>'+t('r_'+k+'_'+r)+'</p></div>';
+  }).join('');
+}
+$('temp').addEventListener('input',renderRisk);
+$('hum').addEventListener('input',renderRisk);
+
+/* ---------- library ---------- */
+var filter='all';
+function renderLibrary(){
+  var q=$('search').value.trim().toLowerCase();
+  var list=DIS.filter(function(d){
+    if(filter!=='all'&&d.cat!==filter)return false;
+    if(!q)return true;
+    return [d.n.en,d.n.ur,d.cause,d.s.en,d.s.ur,d.c.en,d.c.ur].join(' ').toLowerCase().indexOf(q)>-1;
+  });
+  $('cards').innerHTML=list.map(function(d){
+    return '<article class="card'+(d.cat==='rejected'?' reject':'')+'">'+
+      '<div class="tags"><span class="pill '+(d.cat==='rejected'?'warn':d.cat==='healthy'?'':'neutral')+'">'+t('f_'+d.cat)+'</span>'+(d.sev!=='none'?'<span class="sev '+d.sev+'">'+t('sev_'+d.sev)+'</span>':'')+'</div>'+
+      '<h3>'+d.n[lang]+'</h3>'+(d.cause?'<p class="cause">'+d.cause+'</p>':'')+
+      '<dl><div><dt>'+t('l_sym')+'</dt><dd>'+d.s[lang]+'</dd></div><div><dt>'+t('l_care')+'</dt><dd>'+d.c[lang]+'</dd></div></dl></article>';
+  }).join('');
+  $('count').textContent=t('lib_count').replace('{n}',list.length);
+  $('noresult').hidden=list.length>0;
+}
+$('search').addEventListener('input',renderLibrary);
+$('filters').addEventListener('click',function(e){
+  var b=e.target.closest('[data-f]');if(!b)return;
+  filter=b.dataset.f;
+  document.querySelectorAll('[data-f]').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+  renderLibrary();
+});
+
+/* ---------- how / guide / pitch ---------- */
+function renderHow(){
+  $('steps').innerHTML=t('steps').map(function(s,i){
+    return '<li><p class="n">'+t('step')+' '+(i+1)+'</p><h3>'+s[0]+'</h3><p>'+s[1]+'</p></li>';
+  }).join('');
+}
+function renderGuide(){
+  var steam=t('steam').map(function(s){return '<li><span class="l" aria-hidden="true">'+s[0]+'</span><div><b>'+s[1]+'</b><span class="t">'+s[2]+'</span></div></li>'}).join('');
+  $('gg').innerHTML=
+   '<div class="panel"><h3>'+t('g1h')+'</h3><p>'+t('g1p')+'</p></div>'+
+   '<div class="panel"><h3>'+t('g2h')+'</h3><p>'+t('g2p')+'</p></div>'+
+   '<div class="panel"><h3>'+t('g3h')+'</h3><p>'+t('g3p')+'</p></div>'+
+   '<div class="panel"><h3>'+t('g4h')+'</h3><ul class="steam">'+steam+'</ul></div>';
+}
+var pitch=$('pitch');
+function renderPitch(){
+  var qa=t('qa').map(function(x){return '<div><dt>'+x[0]+'</dt><dd>'+x[1]+'</dd></div>'}).join('');
+  $('pitchbody').innerHTML=
+   '<div><h2 id="pitch-h">'+t('pitch_t')+'</h2><p class="sub">'+t('pitch_s')+'</p></div>'+
+   '<div><h3>'+t('pitch_o_h')+'</h3><p>'+t('pitch_o')+'</p></div>'+
+   '<div><h3>'+t('pitch_q_h')+'</h3><dl class="qa">'+qa+'</dl></div>'+
+   '<div><button class="btn btn-primary" id="pitchclose" type="button">'+t('close')+'</button></div>';
+  $('pitchclose').addEventListener('click',function(){pitch.close()});
+}
+$('pitchbtn').addEventListener('click',function(){
+  if(pitch.showModal)pitch.showModal();else pitch.setAttribute('open','');
+});
+pitch.addEventListener('click',function(e){if(e.target===pitch)pitch.close()});
+
+/* ---------- language + judge ---------- */
+function applyLang(){
+  var L=T[lang],root=document.documentElement;
+  root.lang=lang;root.dir=lang==='ur'?'rtl':'ltr';
+  document.querySelectorAll('[data-i18n]').forEach(function(e){var v=L[e.dataset.i18n];if(typeof v==='string')e.textContent=v});
+  document.querySelectorAll('[data-i18n-html]').forEach(function(e){e.innerHTML=L[e.dataset.i18nHtml]});
+  document.querySelectorAll('[data-i18n-ph]').forEach(function(e){e.placeholder=L[e.dataset.i18nPh]});
+  document.querySelectorAll('[data-i18n-aria]').forEach(function(e){e.setAttribute('aria-label',L[e.dataset.i18nAria])});
+  var lb=$('lang');lb.textContent=lang==='en'?'اردو':'English';lb.setAttribute('lang',lang==='en'?'ur':'en');
+  cameraStart.textContent=lang==='ur'?'◎ لائیو کیمرہ استعمال کریں':'◎ Use live camera';cameraCapture.textContent=lang==='ur'?'تصویر لیں اور اسکین کریں':'Capture & scan';cameraStop.textContent=lang==='ur'?'کیمرہ بند کریں':'Stop camera';cameraNote.textContent=cameraMessage('hint');
+  renderResult();renderJudge();renderRisk();renderLibrary();renderHow();renderGuide();renderPitch();
+}
+$('lang').addEventListener('click',function(){
+  lang=lang==='en'?'ur':'en';
+  try{localStorage.setItem('agro-lang',lang)}catch(e){}
+  applyLang();
+});
+$('judge').addEventListener('click',function(){
+  var on=document.body.classList.toggle('judge');
+  this.setAttribute('aria-pressed',on?'true':'false');
+});
+
+/* Accessible animated mobile navigation */
+var hamburger=$('hamburger');
+var nav=$('agro-nav');
+var siteHeader=document.querySelector('.site');
+function closeAgroMenu(){
+  siteHeader.classList.remove('nav-open');
+  hamburger.classList.remove('active');
+  hamburger.setAttribute('aria-expanded','false');
+  hamburger.setAttribute('aria-label',lang==='en'?'Open navigation menu':'مینو کھولیں');
+}
+hamburger.addEventListener('click',function(){
+  var isOpen=siteHeader.classList.toggle('nav-open');
+  hamburger.classList.toggle('active',isOpen);
+  hamburger.setAttribute('aria-expanded',String(isOpen));
+  hamburger.setAttribute('aria-label',isOpen?(lang==='en'?'Close navigation menu':'مینو بند کریں'):(lang==='en'?'Open navigation menu':'مینو کھولیں'));
+});
+nav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',closeAgroMenu)});
+document.addEventListener('keydown',function(event){if(event.key==='Escape')closeAgroMenu()});
+window.addEventListener('resize',function(){if(window.innerWidth>768)closeAgroMenu()});
+
+applyLang();
+})();
+</script>
+
+
+<script id="agrovision-reveal">
+(function(){
+  var nodes=document.querySelectorAll('.sec-head,.tool,.risk,.grid .card,.steps li,.gg .panel,.foot .wrap');
+  nodes.forEach(function(n){n.classList.add('reveal-ready')});
+  var style=document.createElement('style');
+  style.textContent='.reveal-ready{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}.reveal-ready.is-visible{opacity:1;transform:translateY(0)}';
+  document.head.appendChild(style);
+  if(!('IntersectionObserver' in window)||window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    nodes.forEach(function(n){n.classList.add('is-visible')});return;
+  }
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){if(entry.isIntersecting){entry.target.classList.add('is-visible');io.unobserve(entry.target)}});
+  },{threshold:.12});
+  nodes.forEach(function(n){io.observe(n)});
+})();
+</script>
+
+</body>
+</html>
